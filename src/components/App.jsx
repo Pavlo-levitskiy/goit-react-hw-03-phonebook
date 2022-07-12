@@ -17,23 +17,21 @@ const INITIAL_STATE = {
 export class App extends Component {
   state = { ...INITIAL_STATE };
 
-  handleFilterChange = filter => {
+   handleFilterChange = filter => {
     this.setState({ filter });
   };
 
- handleAddContact = contact => {
+  handleAddContact = contact => {
     const { contacts } = this.state;
     if (contacts.filter(({ name }) => name === contact.name).length !== 0) {
       alert(contact.name + ' is already in contacts!');
       return;
     }
-
     this.setState(prevState => ({
       ...INITIAL_STATE,
       contacts: [contact, ...prevState.contacts],
     }));
   };
-
   handleDeleteContact = id => {
     this.setState(({ contacts }) => {
       const updatedContacts = contacts.filter(contact => contact.id !== id);
@@ -47,6 +45,19 @@ export class App extends Component {
       contact.name.toLowerCase().includes(filter.toLowerCase()),
     );
   };
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    if (contacts) {
+      this.setState({ contacts: JSON.parse(contacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const { filter } = this.state;
@@ -68,5 +79,3 @@ export class App extends Component {
     );
   }
 }
-
-export default App

@@ -19,14 +19,16 @@ code {
 }
 div{
   padding: 10px;
-  /* border: 1px solid black;
-  width: 400px; */
 }
 form {
   border: 1px solid;
   width: 400px;
 }
 
+p{
+  margin: 0;
+  padding: 0;
+}
 
 ul {
   margin: 0;
